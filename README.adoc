@@ -1,0 +1,35 @@
+= SAML AAI privacy policy producer
+:icons: font
+:toc: right
+:toclevels: 4
+:sectnums:
+:source-highlighter: pygments
+
+This XSLT 2.0 stylesheet produces a privacy policy document file (in XHTML) from SAML metadata about an SP or IdP. The privacy policy is intended to reflect the https://wiki.edugain.org/eduGAIN:Privacy_policy[eduGAIN format]. It reuses your SAML metadata to ensure a consistent (e.g. service description) and accurate (e.g. attributes requested) statement. A few bits will still have to be filled in manually afterwards, and these are clearly marked as `FILL IN`. The document will be styled in the CLARIN flexbox style, but the bare XHTML is easily restylable, e.g. by referencing a different CSS stylesheet.
+
+== Requirements
+
+* Saxonica Saxon, e.g. https://sourceforge.net/projects/saxon/files/Saxon-HE/9.6/[Saxon Home Edition 9.6].
+
+== To configure
+
+There is one XSLT parameter, `entityID`, which should contain the entity ID of the entity (SP or IdP) that you want to produce a privacy policy for.
+
+== To use
+
+Run Saxon, for instance:
+
+[source,Sh]
+----
+java -jar '/opt/Saxon/SaxonHE9-6-0-6J/saxon9he.jar' -u \
+    -s:'https://infra.clarin.eu/aai/prod_md_about_clarin_erics_idp.xml' \
+    -xsl:'privacy_policy.xsl' \
+    -o:'privacy_policy_clarin_idp.xhtml' entityID='https://idp.clarin.eu'
+
+java -jar '/opt/Saxon/SaxonHE9-6-0-6J/saxon9he.jar' -u \
+    -s:'https://infra.clarin.eu/aai/prod_md_about_spf_sps.xml' \
+    -xsl:'privacy_policy.xsl' \
+    -o:'privacy_policy_clarin_sp.xhtml' entityID='https://sp.catalog.clarin.eu'
+----
+
+
